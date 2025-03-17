@@ -10,6 +10,6 @@ class Course extends Model
 
     public function curriculums()
     {
-        return $this->hasMany(CourseCurriculum::class);
+        return $this->hasMany(Curriculum::class);
     }
 }

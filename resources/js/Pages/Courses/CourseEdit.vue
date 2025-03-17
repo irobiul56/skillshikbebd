@@ -7,7 +7,8 @@ import { ElMessage } from "element-plus";
 
 // Props to receive course data (this will come from the parent component or Inertia)
 const props = defineProps({
-  course: Object, // Expecting the 'course' object as a prop
+  course: Object, //Expecting the 'course' object as a prop
+  category: Object, // Expecting the 'category' object as a prop
 });
 
 const fileInput = ref(null);
@@ -121,13 +122,8 @@ const updateCourse = () => {
           <span class="text-gray-600 font-medium">Category</span>
           <select v-model="form.category" name="category" class="input-field">
             <option value="" disabled>Select category</option>
-            <option>Web Development</option>
-            <option>SEO</option>
-            <option>Digital Marketing</option>
-            <option>Graphic Design</option>
-            <option>Cyber Security</option>
-            <option>Quran Shikkha</option>
-            <option>Handwriting</option>
+            <option v-for="(categories, index) in props.category" :key="index">{{ categories.name }}</option>
+            
           </select>
         </label>
 
@@ -168,6 +164,7 @@ const updateCourse = () => {
             <option>Upcoming</option>
             <option>Ongoing</option>
             <option>Finished</option>
+            <option>Draft</option>
           </select>
         </label>
 

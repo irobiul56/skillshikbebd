@@ -54,7 +54,7 @@ const submitForm = () => {
                     <span class="text-gray-600 font-medium">Select Course</span>
                     <select v-model="selectedCourse" class="input-field">
                         <option value="" disabled>Select a course</option>
-                        <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.title }}</option>
+                        <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.title }} ({{ course.batch_number }})</option>
                     </select>
                 </label>
 

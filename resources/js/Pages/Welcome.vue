@@ -34,7 +34,7 @@ const courses = ref(props.courses);
             </section>
 
             <div class="max-w-6xl mt-8 mx-auto">
-                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">🔴 আপকমিং লাইভ কোর্স</h2>
+                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">🔴 আপকামিং লাইভ কোর্স</h2>
 
                 <div class="flex space-x-4 overflow-x-auto pb-2 text-center">
                     <button class="px-4 py-1 bg-blue-600 text-white rounded-lg">Web & App Development</button>
@@ -49,7 +49,7 @@ const courses = ref(props.courses);
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden border hover:border-indigo-600 bg-gray-100" v-for="(course, index) in courses" :key="index">
                         <Link :href="route('course.single', course.slug)">
-                            <img :src="`/storage/${course.thumbnail}`"
+                            <img :src="course.thumbnail"
                                 alt="Course Image" class="w-full">
                             <div class="p-4">
                                 <p class="text-sm text-gray-600 text-center"><span class="border bg-gray-100">ব্যাচ

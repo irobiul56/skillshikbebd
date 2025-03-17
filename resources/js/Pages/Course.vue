@@ -6,6 +6,8 @@ import { ElMessage } from 'element-plus';
 
 const { props } = usePage();
 const courses = ref(props.courses);
+const activeNames = ref(["week10"]); // Default open section
+
 
 const daysRemaining = computed(() => {
     if (!courses.value.start_date) return "তারিখ নেই"; // Handle empty or invalid date
@@ -55,7 +57,7 @@ const daysRemaining = computed(() => {
         <div class="w-full md:w-2/4 relative">
             <a href="#" onclick="this.nextElementSibling.style.display='block'; this.style.display='none';">
                 <div class="relative">
-                    <img class="w-full h-56 md:h-full rounded-lg" :src="`/storage/${courses.thumbnail}`" alt="YouTube Thumbnail">
+                    <img class="w-full h-56 md:h-full rounded-lg" v-if="courses.thumbnail" :src="courses.thumbnail" alt="YouTube Thumbnail">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <svg class="w-16 h-16 text-white bg-black bg-opacity-50 rounded-full p-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-4.586-2.672A1 1 0 009 9v6a1 1 0 001.166.98l4.586-2.672a1 1 0 000-1.72z" />
@@ -86,17 +88,26 @@ const daysRemaining = computed(() => {
             <p class="text-lg font-bold">{{ courses.batch_number }} ব্যাচ</p>
         </div>
     </section>
-    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-center">কারিকুলাম</h2>
-        <h3 class="text-xl font-semibold text-green-600 text-center mt-2">{{ courses.title }}</h3>
-        <p class="text-center text-gray-500">ক্লাস নিবেনঃ <span class="font-semibold">Robiul Islam</span> & <span class="font-semibold">Khairul Islam</span></p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div class="bg-green-100 p-4 rounded flex items-center justify-between" v-for="curriculum in courses.curriculums">
-                <span class="font-semibold text-green-700">{{ curriculum.week }}</span>
-                <span>{{ curriculum.topic }}</span>
-            </div>
-        </div>
-    </div>
+  <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-6">
+    <h2 class="text-2xl font-bold text-center">কারিকুলাম</h2>
+    <h2 class="text-xl font-bold text-green-600 text-center">{{ courses.title }}</h2>
+    <p class="text-center text-gray-500">ক্লাস নিবেনঃ <strong>Robiul Islam</strong> & <strong>Rakib Hasan</strong></p>
+
+    <el-collapse v-model="activeNames" accordion class="grid grid-cols-1 md:grid-cols-2 gap-1 mt-4 bg-green-50">
+      <el-collapse-item 
+        v-for="curriculum in courses.curriculums" 
+        :key="curriculum.id" 
+        :name="curriculum.id"
+      >
+        <template #title>
+          <el-tag type="success" class="ml-2">{{ curriculum.week }}</el-tag>
+          <span class="ml-3 font-semibold text-green-700">{{ curriculum.topic }}</span>
+        </template>
+        <p v-if="curriculum.details" class="text-gray-700 text-sm p-5">{{ curriculum.details }}</p>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+
     <section class="max-w-6xl mx-auto rounded-lg p-6 mt-6">
             <h2 class="text-2xl font-bold text-center">কোর্সে আপনি পাচ্ছেন</h2>
             <div class="flex justify-center">

@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { ElMessage } from "element-plus";
 
+const { props } = usePage()
+const category = ref(props.category)
 
 const fileInput = ref(null);
 const previewUrl = ref(null);
@@ -22,7 +24,7 @@ const form = useForm({
     batch: "",
     category: "",
     start: "",
-    schedule: "Sat - Sun - Mon",
+    schedule: "সময়: রাত ৯ - ১০ (শনি, সোম, বুধ)",
     totalclass: "",
     status: "Upcoming",
     thumbnail: null,
@@ -125,13 +127,7 @@ const submitForm = () => {
                     <span class="text-gray-600 font-medium">Category</span>
                     <select v-model="form.category" name="category" class="input-field">
                         <option value="" disabled>Select category</option>
-                        <option>Web Development</option>
-                        <option>SEO</option>
-                        <option>Digital Marketing</option>
-                        <option>Graphic Design</option>
-                        <option>Cyber Security</option>
-                        <option>Quran Shikkha</option>
-                        <option>Handwriting</option>
+                        <option v-for="(categories, index) in category" :key="index">{{ categories.name }}</option>
                     </select>
                 </label>
 
@@ -154,7 +150,7 @@ const submitForm = () => {
                     <input type="file" ref="fileInput" accept="image/*" class="hidden" @change="handleFileUpload" />
 
                     <template v-if="!previewUrl">
-                        <span class="text-gray-600 font-medium">Thumbnail</span>
+                        <span class="text-gray-600 font-medium">Thumbnail (1280x720 pixels)</span>
                         <p class="text-gray-500 text-sm">Click to upload or drag and drop</p>
                         <button type="button" class="btn-upload" @click="triggerFileInput">Upload</button>
                     </template>
@@ -172,12 +168,13 @@ const submitForm = () => {
                         <option>Upcoming</option>
                         <option>Ongoing</option>
                         <option>Finished</option>
+                        <option>Draft</option>
                     </select>
                 </label>
 
 
                 <label class="block">
-                    <span class="text-gray-600 font-medium">Videos URL</span>
+                    <span class="text-gray-600 font-medium">Embed Videos URL</span>
                     <input v-model="form.video" type="text" name="video" class="input-field">
                 </label>
 

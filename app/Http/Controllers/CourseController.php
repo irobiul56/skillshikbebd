@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\ProductCategoryModel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -22,7 +23,10 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Courses/CourseForm');
+        $category = ProductCategoryModel::all();
+        return Inertia::render('Courses/CourseForm',[
+                'category'  => $category
+            ]);
     }
 
     /**
@@ -101,11 +105,15 @@ class CourseController extends Controller
 
         // Ensure the thumbnail has a full URL
         if ($course->thumbnail) {
-            $course->thumbnail = asset('storage/thumbnails/' . basename($course->thumbnail));
+            $course->thumbnail = asset('storage/' . $course->thumbnail);
         }
 
+
+        $category = ProductCategoryModel::all();
+        
         return inertia('Courses/CourseEdit', [
-            'course' => $course
+            'course' => $course,
+            'category' => $category,
         ]);
     }
 
@@ -128,7 +136,7 @@ class CourseController extends Controller
             'start' => 'required|date',
             'schedule' => 'required|string',
             'totalclass' => 'required|integer',
-            'status' => 'required|string|in:Upcoming,Ongoing,Finished',
+            'status' => 'required|string|in:Upcoming,Ongoing,Finished,Draft',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'video' => 'nullable|string|url',
         ]);

@@ -16,10 +16,11 @@ const form = useForm({
 
 // Handle curriculum update
 const updateCurriculum = () => {
-  form.put(route('curriculum.update', course.value.id), {
+  form.curriculums = [...curriculums.value]; // Ensure reactivity
+  form.put(route('courses.curriculum.update', { course: course.value.id }), {
     onSuccess: (response) => {
       ElMessage.success('Curriculum updated successfully!');
-      course.value = response.course;  // Update course data after success
+      curriculums.value = response.props.curriculums; // Update curriculums with the response data
     },
     onError: (errors) => {
       ElMessage.error('Failed to update curriculum.');

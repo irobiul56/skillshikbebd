@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
+
 // Import Element Plus and its styles
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
