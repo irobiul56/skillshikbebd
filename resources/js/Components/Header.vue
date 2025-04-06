@@ -15,9 +15,9 @@ const isAuthenticated = computed(() => !!page.props.auth.user);
                 <input type="text" placeholder="কোর্স সার্চ করুন" class="pl-10 pr-4 text-gray-700 rounded-full focus:outline-none max-w-48">
             </div>
             <nav class="hidden md:flex space-x-4">
-                <a href="#" class="text-gray-700 py-1">প্রোগ্রাম</a>
-                <a href="#" class="text-gray-700 py-1">ফ্রী কোর্স</a>
-                <a href="#" class="text-gray-700 py-1">E-Book</a>
+                <Link :href="route('home')" class="text-gray-700 py-1">Home</Link>
+                <a href="#" class="text-gray-700 py-1">Course</a>
+                <Link :href="route('ebooks')" class="text-gray-700 py-1">E-Book</Link>
             </nav>
         </div>
         <div class="flex space-x-4 items-center">

@@ -37,8 +37,9 @@ const daysRemaining = computed(() => {
             
             <div class="mt-4 flex items-center">
                 <Link :href="route('checkout', courses.slug)" class="bg-yellow-400 px-5 py-2 rounded font-semibold text-black flex items-center">  {{ courses.batch_number }} ব্যাচে ভর্তি হন → </Link>
-                <span style="font-family: 'Baloo Da', cursive" class="text-3xl font-bold ml-4">৳ {{ courses.price }}</span>
-                <span class="text-gray-500 ml-2">প্রোমো কোড</span>
+                <span style="font-family: 'Baloo Da', cursive" class="line-through text-3xl font-bold ml-4">৳ {{ courses.price }}</span>
+                <span style="font-family: 'Baloo Da', cursive" class="text-3xl font-bold ml-4">৳ {{ courses.price - ((courses.price * courses.discount)/100) }}</span>
+               
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-1 mt-4 text-center">

@@ -35,10 +35,10 @@ const props = defineProps({
         </a>
       </li>
       <li>
-        <a href="#" class="menu-item flex items-center p-2 hover:bg-gray-200 rounded-lg">
+        <NavLink :href="route('books.index')" :active="route().current('books.index')" class="menu-item flex items-center p-2 hover:bg-gray-200 rounded-lg">
           <span class="mr-2">📘</span> <span v-if="!isCollapsed"> Book </span>
           <span v-if="!isCollapsed" class="ml-2 bg-red-500 text-white px-2 text-xs rounded-full">নতুন</span>
-        </a>
+        </NavLink>
       </li>
       <li>
         <a href="#" class="menu-item flex items-center p-2 hover:bg-gray-200 rounded-lg">

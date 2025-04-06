@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseCurriculumController;
@@ -27,7 +28,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'courses'   => $courses,
     ]);
-});
+}) -> name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -46,13 +47,22 @@ Route::middleware(['auth','admin'])->group(function () {
     ->name('courses.curriculum.update');
     Route::get('/curriculum-list', [CourseCurriculumController::class, 'curriculumlist'])->name('curriculum.list');
     Route::get('/courses-list', [CourseController::class, 'courselist'])->name('course.list');
+    
+    //Book Route
+    Route::resource('books', BookController::class);
+    Route::get('/book-order-list', [BookController::class, 'orderlist'])->name('book.order.list');
+
 });
 
 Route::get('/course/{slug}', [FrontEndController::class, 'course'])->name('course.single');
 Route::get('/chekout/{slug}', [FrontEndController::class, 'checkout'])->name('checkout');
+Route::get('/ebook-checkout/{slug}', [FrontEndController::class, 'ebookcheckout'])->name('ebookcheckout');
 Route::get('/test', [FrontEndController::class, 'test'])->name('test');
 Route::get('/privacy-policy', [FrontEndController::class, 'privacy'])->name('privacy');
 Route::get('/terms-and-conditions', [FrontEndController::class, 'terms'])->name('terms');
+Route::get('/ebooks', [FrontEndController::class, 'ebooks'])->name('ebooks');
+Route::post('/checkoutebook', [FrontEndController::class, 'checkoutebook'])->name('checkoutebook');
+Route::get('/thank-you', [FrontEndController::class, 'showthanks'])->name('thank-you');
 
 //user dashboard
 Route::get('/user/dashboard', [FrontEndController::class, 'userdashboard']) -> middleware(['auth','user']);
