@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseCurriculumController;
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,9 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('curriculum', CourseCurriculumController::class);
     Route::resource('category', CategoryController::class);
     
+    //Course Live Class
+    Route::resource('live-class', LiveClassController::class);
+
     Route::put('/courses/{course}/curriculum', [CourseCurriculumController::class, 'update'])
     ->name('courses.curriculum.update');
     Route::get('/curriculum-list', [CourseCurriculumController::class, 'curriculumlist'])->name('curriculum.list');
@@ -52,6 +56,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('books', BookController::class);
     Route::get('/book-order-list', [BookController::class, 'orderlist'])->name('book.order.list');
 
+    
 });
 
 Route::get('/course/{slug}', [FrontEndController::class, 'course'])->name('course.single');
@@ -62,10 +67,14 @@ Route::get('/privacy-policy', [FrontEndController::class, 'privacy'])->name('pri
 Route::get('/terms-and-conditions', [FrontEndController::class, 'terms'])->name('terms');
 Route::get('/ebooks', [FrontEndController::class, 'ebooks'])->name('ebooks');
 Route::post('/checkoutebook', [FrontEndController::class, 'checkoutebook'])->name('checkoutebook');
+Route::post('/checkoutcourse', [FrontEndController::class, 'checkoutcourse'])->name('checkoutcourse');
 Route::get('/thank-you', [FrontEndController::class, 'showthanks'])->name('thank-you');
 
 //user dashboard
-Route::get('/user/dashboard', [FrontEndController::class, 'userdashboard']) -> middleware(['auth','user']);
+Route::middleware(['auth','user'])->group(function () {
+    Route::get('/user/dashboard', [FrontEndController::class, 'userdashboard']);
+    Route::get('/user/dashboard/my-course/{id}', [FrontEndController::class, 'mycourse'])->name('mycourse');
+});
 
 // Payment Option
 

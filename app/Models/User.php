@@ -47,4 +47,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // app/Models/User.php
+    public function checkedOutCourses()
+    {
+        return $this->belongsToMany(Course::class, table: 'course_checkouts')
+                    ->withPivot(['payment_method', 'transaction_id', 'amount', 'status'])
+                    ->wherePivot('status', 'active'); // Only consider active checkouts
+    }
 }

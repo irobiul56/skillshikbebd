@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name'); // Customer's name
             $table->string('email'); // Customer's email
             $table->string('phone'); // Customer's phone number
-            $table->decimal('amount', 10, 2); // Total amount paid (with 10 digits and 2 decimal places)
+            $table->decimal(column: 'amount');
             $table->timestamps(); // Created at and updated at timestamps
         });
     }
