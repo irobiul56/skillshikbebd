@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@element-plus/icons-vue": "^2.3.1",
+        "@fontsource/hind-siliguri": "^5.2.5",
         "element-plus": "^2.9.5"
     }
 }

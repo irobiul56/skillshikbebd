@@ -25,5 +25,10 @@ class Course extends Model
                     ->withPivot(['payment_method', 'transaction_id', 'amount', 'status'])
                     ->wherePivot('status', 'active');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategoryModel::class, 'category_id', 'id');
+    }
     
 }

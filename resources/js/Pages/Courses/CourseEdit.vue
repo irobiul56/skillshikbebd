@@ -25,7 +25,7 @@ const form = useForm({
   liveclass: props.course.live_classes,
   project: props.course.projects,
   batch: props.course.batch_number,
-  category: props.course.category,
+  category: props.course.category_id,
   start: props.course.start_date,
   schedule: props.course.class_schedule,
   totalclass: props.course.total_classes,
@@ -122,7 +122,7 @@ const updateCourse = () => {
           <span class="text-gray-600 font-medium">Category</span>
           <select v-model="form.category" name="category" class="input-field">
             <option value="" disabled>Select category</option>
-            <option v-for="(categories, index) in props.category" :key="index">{{ categories.name }}</option>
+            <option :value='categories.id' v-for="(categories, index) in props.category" :key="index">{{ categories.name }}</option>
             
           </select>
         </label>

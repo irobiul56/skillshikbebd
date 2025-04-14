@@ -50,7 +50,7 @@ class CourseController extends Controller
             'liveclass' => 'required|integer',
             'project' => 'required|integer',
             'batch' => 'required|integer',
-            'category' => 'required|string',
+            'category' => 'required',
             'start' => 'required|date',
             'schedule' => 'required|string',
             'totalclass' => 'required|integer',
@@ -74,7 +74,7 @@ class CourseController extends Controller
             'live_classes' => $request->liveclass,
             'projects' => $request->project,
             'batch_number' => $request->batch,
-            'category' => $request->category,
+            'category_id' => $request->category,
             'start_date' => $request->start,
             'class_schedule' => $request->schedule,
             'total_classes' => $request->totalclass,
@@ -132,7 +132,7 @@ class CourseController extends Controller
             'liveclass' => 'required|integer',
             'project' => 'required|integer',
             'batch' => 'required|integer',
-            'category' => 'required|string',
+            'category' => 'required',
             'start' => 'required|date',
             'schedule' => 'required|string',
             'totalclass' => 'required|integer',
@@ -148,7 +148,7 @@ class CourseController extends Controller
         $course -> live_classes = $request -> liveclass;
         $course -> projects = $request -> project;
         $course -> batch_number = $request -> batch;
-        $course -> category = $request -> category;
+        $course -> category_id = $request -> category;
         $course -> start_date = $request -> start;
         $course -> class_schedule = $request -> schedule;
         $course -> total_classes = $request -> totalclass;

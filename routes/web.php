@@ -8,6 +8,7 @@ use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Models\ProductCategoryModel;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Models\Course;
@@ -15,12 +16,14 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     
-    $courses = Course::where('status', 'upcoming')->get()->map(function ($course) {
+    $courses = Course::with('category')-> where('status', 'upcoming')->get()->map(function ($course) {
         if ($course->thumbnail) {
             $course->thumbnail = asset('storage/' . $course->thumbnail);
         }
         return $course;
     });
+
+    $categories = ProductCategoryModel::withCount('courses')->get();
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -28,6 +31,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
         'courses'   => $courses,
+        'category'   => $categories,
     ]);
 }) -> name('home');
 

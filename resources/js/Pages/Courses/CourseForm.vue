@@ -127,7 +127,7 @@ const submitForm = () => {
                     <span class="text-gray-600 font-medium">Category</span>
                     <select v-model="form.category" name="category" class="input-field">
                         <option value="" disabled>Select category</option>
-                        <option v-for="(categories, index) in category" :key="index">{{ categories.name }}</option>
+                        <option :value="categories.id" v-for="(categories, index) in category" :key="index">{{ categories.name }}</option>
                     </select>
                 </label>
 

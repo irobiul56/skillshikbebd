@@ -1,194 +1,118 @@
 <script setup>
 import { ref } from 'vue';
 
-const form = ref({
-  courseId: '',
-  title: '',
-  description: '',
-  date: '',
-  time: '',
-  duration: 60,
-  platform: 'zoom',
-  meetingLink: '',
-  recordSession: true
-});
-
-const submitForm = () => {
-  console.log('Form submitted:', form.value);
-  // Add your form submission logic here
-};
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Create Live Class</h2>
-    
-    <form @submit.prevent="submitForm">
-      <!-- Course Selection -->
-      <div class="mb-6">
-        <label for="course" class="block text-sm font-medium text-gray-700 mb-2">Select Course</label>
-        <select 
-          id="course" 
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          v-model="form.courseId"
-          required
-        >
-          <option value="" disabled selected>Select a course</option>
-          <option value="course1">Web Development Bootcamp</option>
-          <option value="course2">Data Science Fundamentals</option>
-          <option value="course3">Mobile App Development</option>
-        </select>
+  <section class="w-full pt-10 md:pt-16">
+  <div class="w-full px-4 mx-auto sm:max-w-[540px] md:max-w-[720px] lg:max-w-[1150px] xl:max-w-[1150px]">
+    <div class="flex flex-col items-center gap-3 p-0 md:p-4 bg-none md:bg-white md:rounded-2xl md:shadow-md overflow-hidden">
+      <div class="flex items-center gap-2">
+        <img class="w-10 h-10" src="https://cdn.ostad.app/public/upload/2023-08-07T04-54-15.325Z-broadcast-line-red.svg">
+        <p class="text-lg md:text-2xl font-medium text-gray-800">আপকামিং লাইভ কোর্স</p>
       </div>
-
-      <!-- Class Title -->
-      <div class="mb-6">
-        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Class Title</label>
-        <input 
-          type="text" 
-          id="title" 
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="e.g. Introduction to React"
-          v-model="form.title"
-          required
-        >
-      </div>
-
-      <!-- Class Description -->
-      <div class="mb-6">
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-        <textarea 
-          id="description" 
-          rows="4"
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="What will this class cover?"
-          v-model="form.description"
-        ></textarea>
-      </div>
-
-      <!-- Date and Time -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Date -->
-        <div>
-          <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
-          <input 
-            type="date" 
-            id="date" 
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            v-model="form.date"
-            required
-          >
-        </div>
-        
-        <!-- Time -->
-        <div>
-          <label for="time" class="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
-          <input 
-            type="time" 
-            id="time" 
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            v-model="form.time"
-            required
-          >
-        </div>
-      </div>
-
-      <!-- Duration -->
-      <div class="mb-6">
-        <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
-        <input 
-          type="number" 
-          id="duration" 
-          min="15" 
-          max="240" 
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="e.g. 90"
-          v-model="form.duration"
-          required
-        >
-      </div>
-
-      <!-- Meeting Platform -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Meeting Platform</label>
-        <div class="space-y-2">
-          <div class="flex items-center">
-            <input 
-              id="zoom" 
-              name="platform" 
-              type="radio" 
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-              value="zoom"
-              v-model="form.platform"
-              checked
-            >
-            <label for="zoom" class="ml-3 block text-sm font-medium text-gray-700">Zoom</label>
+      
+      <div class="w-full flex flex-col items-center gap-4 md:gap-6">
+        <!-- Category tabs -->
+        <div class="flex flex-col gap-6 w-full">
+          <div class="relative">
+            <div class="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+              <!-- Active category -->
+              <div class="flex-shrink-0">
+                <div class="group flex items-center gap-1.5 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 cursor-pointer">
+                  <div class="w-7 bg-white flex justify-center items-center rounded-full shadow-sm p-1.5">
+                    <img class="w-4" src="https://cdn.ostad.app/public/upload/2023-06-22T06-40-41.054Z-code-box-line.png">
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-white">Web & App Development</p>
+                    <p class="text-xs text-gray-400">• ৩২ কোর্স • ৫ ওয়ার্কশপ</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Inactive categories -->
+              <div class="flex-shrink-0">
+                <div class="group flex items-center gap-1.5 px-4 py-2 rounded-md bg-gray-100 border border-gray-200 hover:bg-gray-200 hover:border-gray-300 cursor-pointer">
+                  <div class="w-7 bg-white flex justify-center items-center rounded-full shadow-sm p-1.5">
+                    <img class="w-4 filter brightness-0 group-hover:brightness-100 transition-all" src="https://cdn.ostad.app/public/upload/2023-06-07T09-55-30.105Z-product-design.png">
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-800 group-hover:underline">Product Management & Design</p>
+                    <p class="text-xs text-gray-500">• ৮ কোর্স • ২ ওয়ার্কশপ</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- More category items... -->
+            </div>
           </div>
-          <div class="flex items-center">
-            <input 
-              id="google-meet" 
-              name="platform" 
-              type="radio" 
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-              value="google-meet"
-              v-model="form.platform"
-            >
-            <label for="google-meet" class="ml-3 block text-sm font-medium text-gray-700">Google Meet</label>
+          
+          <!-- Course cards grid -->
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3">
+            <!-- Course card 1 -->
+            <a href="/course/web-development-with-python-django" class="w-full h-full">
+              <div class="relative flex flex-col w-full h-full bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 hover:shadow-md transition-all">
+                <div class="w-full aspect-video overflow-hidden">
+                  <img src="https://cdn.ostad.app/course/cover/2024-12-19T15-48-52.487Z-Full-Stack-Web-Development-with-Python,-Django-&amp;-React.jpg" 
+                       class="w-full h-full object-cover" loading="lazy" alt="Course thumbnail">
+                </div>
+                
+                <div class="flex flex-wrap p-2 items-center gap-2 border-t border-b border-gray-200 bg-gray-100">
+                  <div class="hidden sm:block">
+                    <div class="flex items-center gap-1 px-2 py-1 rounded bg-gray-200">
+                      <p class="text-xs text-gray-700">ব্যাচ ৫</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1 px-2 py-1 rounded bg-gray-200">
+                    <img class="w-3 h-3" src="https://cdn.ostad.app/public/icons/team-line.svg">
+                    <p class="text-xs text-gray-700">৭৫ সিট বাকি</p>
+                  </div>
+                  <div class="flex items-center gap-1 px-2 py-1 rounded bg-gray-200">
+                    <img class="w-3 h-3" src="https://cdn.ostad.app/public/icons/time-line.svg">
+                    <p class="text-xs text-gray-700">১৭ দিন বাকি</p>
+                  </div>
+                </div>
+                
+                <div class="flex flex-col flex-grow justify-between">
+                  <div class="p-2 md:p-4">
+                    <p class="text-sm md:text-lg font-bold text-gray-900 line-clamp-3">Full Stack Web Development with Python, Django & React</p>
+                  </div>
+                  
+                  <div class="w-full p-2 md:px-4 md:py-3 bg-none md:bg-gray-100">
+                    <div class="sm:hidden">
+                      <button class="w-full flex gap-2 justify-center items-center h-8 px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 active:bg-gray-400 transition-all">
+                        <p class="text-xs uppercase text-gray-900">বিস্তারিত দেখি</p>
+                        <img class="w-5 h-5 filter invert brightness-0" src="https://cdn.ostad.app/public/icons/arrow-right-line.svg">
+                      </button>
+                    </div>
+                    <div class="hidden sm:block">
+                      <button class="w-full flex gap-2 justify-center items-center h-10 px-6 py-2 rounded-md bg-gray-200 hover:bg-gray-300 active:bg-gray-400 transition-all">
+                        <p class="text-sm uppercase font-medium text-gray-900">বিস্তারিত দেখি</p>
+                        <img class="w-5 h-5" src="https://cdn.ostad.app/public/icons/arrow-right-line.svg">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            
+            <!-- More course cards... -->
           </div>
-          <div class="flex items-center">
-            <input 
-              id="custom" 
-              name="platform" 
-              type="radio" 
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-              value="custom"
-              v-model="form.platform"
-            >
-            <label for="custom" class="ml-3 block text-sm font-medium text-gray-700">Custom Link</label>
+          
+          <!-- See all button -->
+          <div class="flex justify-center">
+            <div class="w-full max-w-[375px]">
+              <a href="/category/web-and-app-development" class="w-full">
+                <button class="w-full flex gap-2 justify-center items-center h-12 px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 active:bg-gray-400 transition-all">
+                  <p class="text-sm uppercase font-medium text-gray-900">সব দেখুন</p>
+                  <img class="w-6 h-6" src="https://cdn.ostad.app/public/icons/arrow-right-line.svg">
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- Meeting Link (conditional) -->
-      <div class="mb-6" v-if="form.platform === 'custom'">
-        <label for="meeting-link" class="block text-sm font-medium text-gray-700 mb-2">Meeting Link</label>
-        <input 
-          type="url" 
-          id="meeting-link" 
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="https://"
-          v-model="form.meetingLink"
-        >
-      </div>
-
-      <!-- Recording Option -->
-      <div class="mb-6">
-        <div class="flex items-center">
-          <input 
-            id="record" 
-            type="checkbox" 
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"
-            v-model="form.recordSession"
-          >
-          <label for="record" class="ml-3 block text-sm font-medium text-gray-700">Record this session</label>
-        </div>
-        <p class="mt-1 text-sm text-gray-500">Recording will be available to students after the session ends</p>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="flex justify-end">
-        <button
-          type="button"
-          class="mr-4 px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Schedule Live Class
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
+</section>
 </template>

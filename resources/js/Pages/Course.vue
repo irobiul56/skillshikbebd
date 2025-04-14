@@ -25,7 +25,7 @@ const daysRemaining = computed(() => {
 <template>
      <Head title="Course" />
     <FrontendLayout>
-    <div class="max-w-6xl mx-auto shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6">
+    <div style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6">
         <div class="w-full md:w-2/4">
             <span class="border border-green-600 text-green text-sm px-3 py-1 rounded-full">🔴 লাইভ কোর্স</span>
             <h1 class="text-3xl font-bold mt-2">{{courses.title}}</h1>
@@ -33,12 +33,12 @@ const daysRemaining = computed(() => {
                 <span class="text-green-600 font-semibold">4.7 ⭐</span>
                 <span class="ml-2">(253 Ratings)</span>
             </div>
-            <p style="font-family: 'Baloo Da', cursive" class="text-gray-600 mt-2">{{ courses.description }}</p>
+            <p class="text-gray-600 mt-2">{{ courses.description }}</p>
             
             <div class="mt-4 flex items-center">
                 <Link :href="route('checkout', courses.slug)" class="bg-yellow-400 px-5 py-2 rounded font-semibold text-black flex items-center">  {{ courses.batch_number }} ব্যাচে ভর্তি হন → </Link>
-                <span style="font-family: 'Baloo Da', cursive" class="line-through text-3xl font-bold ml-4">৳ {{ courses.price }}</span>
-                <span style="font-family: 'Baloo Da', cursive" class="text-3xl font-bold ml-4">৳ {{ courses.price - ((courses.price * courses.discount)/100) }}</span>
+                <span class="line-through text-3xl font-bold ml-4">৳ {{ courses.price }}</span>
+                <span class="text-3xl font-bold ml-4">৳ {{ courses.price - ((courses.price * courses.discount)/100) }}</span>
                
             </div>
             
@@ -71,7 +71,7 @@ const daysRemaining = computed(() => {
         </div>
     </div>
     
-    <section style="font-family: 'Baloo Da', cursive" class="max-w-6xl mx-auto p-6 rounded-lg mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700">
+    <section style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto p-6 rounded-lg mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700">
         <div>
             <p class="text-sm font-semibold">ব্যাচ শুরু</p>
             <p class="text-lg font-bold p-2 rounded">{{ courses.start_date }}</p>
@@ -89,7 +89,7 @@ const daysRemaining = computed(() => {
             <p class="text-lg font-bold">{{ courses.batch_number }} ব্যাচ</p>
         </div>
     </section>
-  <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-6">
+  <div style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-6">
     <h2 class="text-2xl font-bold text-center">কারিকুলাম</h2>
     <h2 class="text-xl font-bold text-green-600 text-center">{{ courses.title }}</h2>
     <p class="text-center text-gray-500">ক্লাস নিবেনঃ <strong>Robiul Islam</strong> & <strong>Rakib Hasan</strong></p>
@@ -109,7 +109,7 @@ const daysRemaining = computed(() => {
     </el-collapse>
   </div>
 
-    <section class="max-w-6xl mx-auto rounded-lg p-6 mt-6">
+    <section style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto rounded-lg p-6 mt-6">
             <h2 class="text-2xl font-bold text-center">কোর্সে আপনি পাচ্ছেন</h2>
             <div class="flex justify-center">
                 <img src="https://cdn.ostad.app/public/upload/2023-11-05T09-20-16.532Z-learn_topic.svg" alt="">
