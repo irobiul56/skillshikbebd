@@ -9,6 +9,8 @@ import { ElMessage } from "element-plus";
 const props = defineProps({
   course: Object, //Expecting the 'course' object as a prop
   category: Object, // Expecting the 'category' object as a prop
+  getdata: Array,
+  tools: Array,
 });
 
 const fileInput = ref(null);
@@ -32,6 +34,9 @@ const form = useForm({
   status: props.course.status,
   thumbnail: null, // Keep this null initially; will be handled separately
   video: props.course.videos,
+  group: props.course.group,
+  gets: props.course.gets, // ✅ gets array for el-select
+  tools: props.course.tools, // ✅ tools array for el-select
 });
 
 // Set the preview image if a thumbnail is already set
@@ -158,7 +163,7 @@ const updateCourse = () => {
           </div>
         </div>
 
-        <label class="block">
+        <label class="block col-span-2">
           <span class="text-gray-600 font-medium">Status</span>
           <select v-model="form.status" name="status" class="input-field">
             <option>Upcoming</option>
@@ -168,9 +173,58 @@ const updateCourse = () => {
           </select>
         </label>
 
-        <label class="block">
+        <label class="block col-span-2">
           <span class="text-gray-600 font-medium">Videos URL</span>
           <input v-model="form.video" type="text" name="video" class="input-field">
+        </label>
+
+        <label class="block col-span-2">
+          <span class="text-gray-600 font-medium">Facebook Group URL</span>
+          <input v-model="form.group" type="text" name="group" class="input-field">
+        </label>
+
+        <!-- Tag Selector -->
+        <label class="block col-span-2">
+          <span class="text-gray-600 font-medium">In this course you get:</span>
+          <el-select
+          v-model="form.gets"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          :reserve-keyword="false"
+          placeholder="Choose or create gets"
+          style="width: 100%"
+        >
+          <el-option
+            v-for="(item, index) in props.getdata"
+            :key="index"
+            :label="item.title"
+            :value="item.id"
+          />
+        </el-select>
+        </label>
+
+         <!-- Tools Selector -->
+         <label class="block col-span-2">
+          <span class="text-gray-600 font-medium">Tools & Technology:</span>
+          <el-select
+            v-model="form.tools"
+            multiple
+            filterable
+            allow-create
+            default-first-option
+            :reserve-keyword="false"
+            placeholder="Choose or create tools"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="(item, index) in tools"
+              :key="index"
+              :label="item.title"
+              :value="item.id"
+            />
+          </el-select>
         </label>
 
         <button type="submit" class="btn-submit">Update</button>

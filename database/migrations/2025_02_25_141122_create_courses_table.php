@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('live_classes')->default(0);
             $table->integer('projects')->default(0);
             $table->string('videos')->nullable();
+            $table->string('group')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('slug')->nullable();
             $table->string('category')->nullable();

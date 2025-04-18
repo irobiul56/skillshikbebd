@@ -46,7 +46,7 @@ class LiveClassController extends Controller
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
             'duration' => 'required|integer|min:15|max:240',
-            'platform' => 'required|in:zoom,google-meet,custom',
+            'platform' => 'required|in:zoom,google_meet,custom',
             'meetingLink' => 'required|url',
             'recordSession' => 'required|boolean',
         ]);

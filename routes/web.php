@@ -4,11 +4,14 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseCurriculumController;
+use App\Http\Controllers\CourseYouGetController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ToolsTechnologyController;
 use App\Models\ProductCategoryModel;
+use App\Models\ToolsTechnology;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Models\Course;
@@ -60,7 +63,11 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('books', BookController::class);
     Route::get('/book-order-list', [BookController::class, 'orderlist'])->name('book.order.list');
 
-    
+    //In the course you get
+    Route::resource('courseyouget', CourseYouGetController::class);
+
+    //In the course you get
+    Route::resource('tools-technology', ToolsTechnologyController::class);
 });
 
 Route::get('/course/{slug}', [FrontEndController::class, 'course'])->name('course.single');

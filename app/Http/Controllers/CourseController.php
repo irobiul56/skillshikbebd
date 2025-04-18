@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseYouGet;
+use App\Models\Get;
 use App\Models\ProductCategoryModel;
+use App\Models\Tool;
+use App\Models\ToolsTechnology;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -24,8 +28,12 @@ class CourseController extends Controller
     public function index()
     {
         $category = ProductCategoryModel::all();
+        $getdata = Get::all();
+        $tools = Tool::all();
         return Inertia::render('Courses/CourseForm',[
-                'category'  => $category
+                'category'  => $category,
+                'getdata'   => $getdata,
+                'tools'     => $tools,
             ]);
     }
 
@@ -43,7 +51,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         // dd($request -> all());
-        $request->validate([
+       $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
@@ -57,6 +65,11 @@ class CourseController extends Controller
             'status' => 'required|string|in:Upcoming,Ongoing,Finished',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'video' => 'nullable|string|url',
+            'group' => 'nullable|string|url',
+            'gets' => 'required|array',
+            'gets.*' => 'exists:gets,id', // Ensure all tag IDs exist
+            'tools' => 'required|array',
+            'tools.*' => 'exists:tools,id',
         ]);
 
         // Handle file upload if provided
@@ -66,7 +79,7 @@ class CourseController extends Controller
             $path = null;
         }
 
-        Course::create([
+       $course = Course::create([
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
@@ -81,8 +94,13 @@ class CourseController extends Controller
             'status' => $request->status,
             'thumbnail' => $path,
             'videos' => $request->video,
+            'group' => $request->group,
             'slug' => Str::slug($request-> title), 
         ]);
+
+        // Attach gets to the course (this creates records in course_tag table)
+        $course->gets()->attach($validated['gets']);
+        $course->tools()->attach($validated['tools']);
 
         return redirect()->route('courses.index')->with('success', 'Course created successfully.');
 
@@ -101,19 +119,30 @@ class CourseController extends Controller
      */
     public function edit(string $id)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::with(['gets','tools'])->findOrFail($id);
 
         // Ensure the thumbnail has a full URL
         if ($course->thumbnail) {
             $course->thumbnail = asset('storage/' . $course->thumbnail);
         }
-
-
+    
+        // Get all available categories, gets and tools
         $category = ProductCategoryModel::all();
-        
+        $getdata = Get::all();
+        $tools = Tool::all();
+    
+        // Transform the course data to include only IDs for gets and tools
+        $courseData = [
+            ...$course->toArray(),
+            'gets' => $course->gets->pluck('id')->toArray(),
+            'tools' => $course->tools->pluck('id')->toArray(),
+        ];
+    
         return inertia('Courses/CourseEdit', [
-            'course' => $course,
+            'course' => $courseData,
             'category' => $category,
+            'getdata' => $getdata,
+            'tools' => $tools,
         ]);
     }
 
@@ -139,6 +168,11 @@ class CourseController extends Controller
             'status' => 'required|string|in:Upcoming,Ongoing,Finished,Draft',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'video' => 'nullable|string|url',
+            'group' => 'nullable|string|url',
+            'gets' => 'nullable|array',
+            'gets.*' => 'exists:gets,id', // Validate each tag exists
+            'tools' => 'nullable|array',
+            'tools.*' => 'exists:tools,id',
         ]);
 
         $course -> title = $request -> title;
@@ -154,7 +188,9 @@ class CourseController extends Controller
         $course -> total_classes = $request -> totalclass;
         $course -> status = $request -> status;
         $course -> videos = $request -> video;
+        $course -> group = $request -> group;
         $course -> slug = Str::slug($request-> title); 
+        
 
             // Handle image upload if a new one is provided
     if ($request->hasFile('thumbnail')) {
@@ -169,6 +205,14 @@ class CourseController extends Controller
     }
 
     $course->save();
+
+    if ($request->has('gets')) {
+        $course->gets()->sync($request->gets);
+        $course->tools()->sync($request->tools);
+    } else {
+        $course->gets()->detach(); // Remove all gets if none provided
+        $course->tools()->detach(); // Remove all gets if none provided
+    }
 
     return redirect()->route('course.list')->with('message', 'Course updated successfully!');
      

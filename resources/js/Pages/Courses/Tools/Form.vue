@@ -1,105 +1,78 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 
-const items = ref([{
-  icon: '',
-  title: '',
-  description: ''
-}]);
+const iconPreviews = ref([null]);
 
-const isSubmitting = ref(false);
-const submitMessage = ref(null);
+
+const form = useForm({
+  items: [
+    {
+      icon: null,
+      title: '',
+    }
+  ]
+});
 
 const addItem = () => {
-  items.value.push({
-    icon: '',
+  form.items.push({
+    icon: null,
     title: '',
-    description: ''
   });
+  iconPreviews.value.push(null);
 };
 
 const removeItem = (index) => {
-  if (items.value.length > 1) {
-    items.value.splice(index, 1);
+  if (form.items.length > 1) {
+    form.items.splice(index, 1);
+    iconPreviews.value.splice(index, 1);
   }
 };
+
 
 const handleIconUpload = (event, index) => {
   const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      items.value[index].icon = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    form.items[index].icon = file;
+    iconPreviews.value[index] = URL.createObjectURL(file);
   }
 };
+
 
 const removeIcon = (index) => {
-  items.value[index].icon = '';
+  form.items[index].icon = null;
+  iconPreviews.value[index] = null;
+  const fileInput = document.getElementById(`icon-upload-${index}`);
+  if (fileInput) fileInput.value = '';
 };
 
-const submitForm = async () => {
-  try {
-    isSubmitting.value = true;
-    submitMessage.value = null;
-    
-    // Validate form
-    if (!items.value.every(item => item.title && item.description)) {
-      throw new Error('Please fill all required fields');
+
+const submit = () => {
+  form.post(route('tools-technology.store'), {
+    preserveScroll: true,
+    onSuccess: () => {
+    form.reset();
+    form.items = [{
+        icon: null,
+        title: '',
+
+    }];
+    iconPreviews.value = [null];
     }
-    
-    // Prepare form data
-    const formData = new FormData();
-    items.value.forEach((item, index) => {
-      formData.append(`items[${index}][title]`, item.title);
-      formData.append(`items[${index}][description]`, item.description);
-      if (item.icon) {
-        const blob = dataURLtoBlob(item.icon);
-        formData.append(`items[${index}][icon]`, blob, `icon_${index}.png`);
-      }
-    });
-    
-    // Here you would make your actual API call
-    console.log('Form data prepared:', Object.fromEntries(formData));
-    
-    submitMessage.value = {
-      type: 'success',
-      text: 'Form submitted successfully!'
-    };
-    
-  } catch (error) {
-    submitMessage.value = {
-      type: 'error',
-      text: error.message || 'Failed to submit form'
-    };
-  } finally {
-    isSubmitting.value = false;
-  }
-};
 
-const dataURLtoBlob = (dataURL) => {
-  const arr = dataURL.split(',');
-  const mime = arr[0].match(/:(.*?);/)[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
+  });
 };
 </script>
 
 <template>
-  <Head title="Live Class" />
+  <Head title="Create Items" />
+
   <AuthenticatedLayout>
     <div class="max-w-4xl mx-auto p-6">
-      <form @submit.prevent="submitForm" class="space-y-6">
+      <form @submit.prevent="submit" class="space-y-6">
         <!-- List of Items -->
-        <div v-for="(item, index) in items" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
+        <div v-for="(item, index) in form.items" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
           <div class="grid grid-cols-12 gap-4 items-center">
             <!-- Icon Upload Field -->
             <div class="col-span-1">
@@ -121,7 +94,7 @@ const dataURLtoBlob = (dataURL) => {
                   </svg>
                 </label>
                 <div v-if="item.icon" class="relative group">
-                  <img :src="item.icon" class="w-10 h-10 rounded-full object-cover" />
+                    <img v-if="iconPreviews[index]" :src="iconPreviews[index]" class="w-10 h-10 rounded-full object-cover" />
                   <button
                     type="button"
                     @click="removeIcon(index)"
@@ -133,27 +106,25 @@ const dataURLtoBlob = (dataURL) => {
                   </button>
                 </div>
               </div>
+              <p v-if="form.errors[`items.${index}.icon`]" class="text-red-500 text-xs mt-2">
+                {{ form.errors[`items.${index}.icon`] }}
+              </p>
             </div>
             
             <!-- Title Field -->
-            <div class="col-span-4">
+            <div class="col-span-6">
               <input
                 v-model="item.title"
                 placeholder="Title"
                 required
                 class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                :class="{ 'border-red-500': form.errors[`items.${index}.title`] }"
               />
+              <p v-if="form.errors[`items.${index}.title`]" class="text-red-500 text-xs mt-1">
+                {{ form.errors[`items.${index}.title`] }}
+              </p>
             </div>
             
-            <!-- Description Field -->
-            <div class="col-span-5">
-              <input
-                v-model="item.description"
-                placeholder="Description"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
             
             <!-- Remove Button -->
             <div class="col-span-2 flex justify-end space-x-2">
@@ -162,8 +133,8 @@ const dataURLtoBlob = (dataURL) => {
                 @click="removeItem(index)"
                 class="p-2 text-red-500 hover:text-red-700 transition-colors"
                 title="Remove item"
-                :disabled="items.length <= 1"
-                :class="{'opacity-50 cursor-not-allowed': items.length <= 1}"
+                :disabled="form.items.length <= 1"
+                :class="{'opacity-50 cursor-not-allowed': form.items.length <= 1}"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -173,7 +144,7 @@ const dataURLtoBlob = (dataURL) => {
               <button
                 type="button"
                 @click="addItem"
-                v-if="index === items.length - 1"
+                v-if="index === form.items.length - 1"
                 class="p-2 text-green-500 hover:text-green-700 transition-colors"
                 title="Add item"
               >
@@ -187,13 +158,12 @@ const dataURLtoBlob = (dataURL) => {
 
         <!-- Form Actions -->
         <div class="flex justify-between items-center pt-4">
-          
           <button
             type="submit"
             class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center"
-            :disabled="isSubmitting"
+            :disabled="form.processing"
           >
-            <span v-if="!isSubmitting">Submit Form</span>
+            <span v-if="!form.processing">Submit Form</span>
             <span v-else class="flex items-center">
               <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -202,18 +172,6 @@ const dataURLtoBlob = (dataURL) => {
               Processing...
             </span>
           </button>
-        </div>
-
-        <!-- Submission Message -->
-        <div 
-          v-if="submitMessage" 
-          class="p-3 rounded-md"
-          :class="{
-            'bg-green-100 text-green-800': submitMessage.type === 'success',
-            'bg-red-100 text-red-800': submitMessage.type === 'error'
-          }"
-        >
-          {{ submitMessage.text }}
         </div>
       </form>
     </div>

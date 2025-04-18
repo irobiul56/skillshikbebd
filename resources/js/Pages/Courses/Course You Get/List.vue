@@ -7,15 +7,15 @@ import { usePage, useForm } from '@inertiajs/vue3';
 import { ElMessage } from "element-plus";
 
 const { props } = usePage()
-const courses = ref(props.courses)
+const data = ref(props.data)
 
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
 const searchQuery = ref('')
 
-const filteredcourses = computed(() => {
-  const filtered = courses.value.filter(courses => 
-  courses.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+const filtereddata = computed(() => {
+  const filtered = data.value.filter(data => 
+  data.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
   )
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
@@ -24,8 +24,8 @@ const filteredcourses = computed(() => {
 
 const totalPages = computed(() => {
   return Math.ceil(
-    courses.value.filter(courses => 
-    courses.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+    data.value.filter(data => 
+    data.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
     ).length / itemsPerPage.value
   )
 })
@@ -48,15 +48,15 @@ defineProps({
 })
 
 
-const deletecourses = (coursesId) => {
+const deletedata = (dataId) => {
     if (confirm("Are you sure you want to delete this data?")) {
-        coursesForm.delete(route('courses.destroy', coursesId), {
+        dataForm.delete(route('courseyouget.destroy', dataId), {
             onSuccess: (page) => {
-                courses.value = page.props.courses; // Update the courses list after deletion
-                ElMessage.success("courses deleted successfully!");
+                data.value = page.props.data; // Update the data list after deletion
+                ElMessage.success("data deleted successfully!");
             },
             onError: () => {
-                ElMessage.error("Failed to delete the courses. Please try again.");
+                ElMessage.error("Failed to delete the data. Please try again.");
             },
         });
     }
@@ -78,17 +78,8 @@ const deletecourses = (coursesId) => {
                 <input v-model="searchQuery"
                     class="w-32 pl-10 pr-4 text-indigo-600 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                     type="text" placeholder="Search">
-                    <Link class="ml-3" :href="route('courses.index')">
-                        <el-button type="primary">Create Course</el-button>
-                    </Link>
-                    <Link class="ml-3" :href="route('live-class.index')">
-                        <el-button type="primary">Live Class</el-button>
-                    </Link>
-                    <Link class="ml-3" :href="route('courseyouget.index')">
-                        <el-button type="primary">Course You Gets</el-button>
-                    </Link>
-                    <Link class="ml-3" :href="route('tools-technology.index')">
-                        <el-button type="primary">Tools & Technology</el-button>
+                    <Link class="ml-3" :href="route('courseyouget.create')">
+                        <el-button type="primary">Add Now</el-button>
                     </Link>
 
             </div>
@@ -97,32 +88,25 @@ const deletecourses = (coursesId) => {
                 <thead>
                     <tr class="text-left">
                         <th class="py-2 px-4 border-b-2">#</th>
-                        <th class="py-2 px-4 border-b-2">Courses Title</th>
-                        <th class="py-2 px-4 border-b-2">Batch</th>
-                        <th class="py-2 px-4 border-b-2">Price</th>
-                        <th class="py-2 px-4 border-b-2">Discount Price</th>
-                        <th class="py-2 px-4 border-b-2">Class Schedule</th>
-                        <th class="py-2 px-4 border-b-2">Start Date</th>
-                        <th class="py-2 px-4 border-b-2">Status</th>
+                        <th class="py-2 px-4 border-b-2">Icon</th>
+                        <th class="py-2 px-4 border-b-2">Title</th>
+                        <th class="py-2 px-4 border-b-2">Description</th>
                         <th class="py-2 px-4 border-b-2">Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(courses, index) in filteredcourses" :key="index" class="hover:bg-gray-100">
+                    <tr v-for="(data, index) in filtereddata" :key="index" class="hover:bg-gray-100">
                         <td class="py-2 px-4 border-b">{{ index + 1 }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.title }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.batch_number }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.price }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.discount }}% = {{ courses.price - (courses.price * courses.discount/100)  }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.class_schedule }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.start_date }}</td>
-                        <td class="py-2 px-4 border-b">{{ courses.status }}</td>
-                        
+                        <td class="py-2 px-4 border-b">
+  <img :src="data.icon ? `/storage/${data.icon}` : ''" alt="" class="w-10 h-10 rounded-full object-cover">
+</td>
+                        <td class="py-2 px-4 border-b">{{ data.title }}</td>
+                        <td class="py-2 px-4 border-b">{{ data.description }}</td>
                         <td class="py-2 px-4 border-b flex">
 
                            <!-- Edit button to open modal for editing -->
-                            <Link :href="route('courses.edit', courses.id)">
+                            <Link :href="route('courseyouget.edit', data.id)">
                                 <button>
                                     <svg class="w-6 h-6 text-blue-400 dark:text-white ml-5" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -134,7 +118,7 @@ const deletecourses = (coursesId) => {
                                 </button>
                             </Link>
 
-                            <Link @click="deletecourses(courses.id)">
+                            <Link @click="deletedata(data.id)">
                             <svg class="w-6 h-6 text-red-400 dark:text-white ml-5" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">

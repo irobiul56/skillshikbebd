@@ -120,10 +120,10 @@ const submitForm = () => {
                             <label for="zoom" class="ml-3 block text-sm font-medium text-gray-700">Zoom</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="google-meet" name="platform" type="radio"
-                                class="h-4 w-4 text-blue-600 focus:ring-blue-500" value="google-meet"
+                            <input id="google_meet" name="platform" type="radio"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500" value="google_meet"
                                 v-model="form.platform">
-                            <label for="google-meet" class="ml-3 block text-sm font-medium text-gray-700">Google
+                            <label for="google_meet" class="ml-3 block text-sm font-medium text-gray-700">Google
                                 Meet</label>
                         </div>
                         <div class="flex items-center">

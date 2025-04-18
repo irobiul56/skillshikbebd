@@ -21,6 +21,50 @@ const daysRemaining = computed(() => {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
 });
 
+const faqs = ref([
+  {
+    id: 1,
+    question: '1. আমি কি ভিডিওগুলো ডাউনলোড করতে পারবো?',
+    answer: 'হ্যা, আপনি ভিডিও ডাউনলোড করে রাখতে পারবেন।',
+    isOpen: false
+  },
+  {
+    id: 2,
+    question: '2. আমি কি মোবাইল দিয়ে জয়েন করতে পারবো?',
+    answer: 'মোবাইল দিয়ে লাইভ ক্লাসে জয়েন করতে পারবেন',
+    isOpen: false
+  },
+  {
+    id: 3,
+    question: '3. আমার কি ভিডিওগুলোর লাইফটাইম এক্সেস থাকবে?',
+    answer: 'জ্বি, ভিডিও এবং রিসোর্সের লাইফ টাইম এক্সেস পাচ্ছেন।',
+    isOpen: false
+  },
+  {
+    id: 4,
+    question: '4. লাইভ ক্লাস কোথায় হবে?',
+    answer: 'স্কিল শিখবের প্লাটফরম থেকেই লাইভ ক্লাসে আপনি একটি সিঙ্গেল ক্লিকে জয়েন করতে পারবেন',
+    isOpen: false
+  },
+  {
+    id: 8,
+    question: '8. লাইভ ক্লাসের রেকর্ডিং থাকবে?',
+    answer: 'জ্বী, পাবেন লাইভ ক্লাস রেকর্ডিং এর লাইফ টাইম এক্সেস।',
+    isOpen: false
+  },
+  {
+    id: 9,
+    question: '9. প্র্যাকটিস করতে গিয়ে সমস্যায় পড়লে সাপোর্ট পাবো কোথায়?',
+    answer: 'যেকোনো সমস্যায় দুইবেলা সাপোর্ট ক্লাসে স্ক্রিন শেয়ার করে সাপোর্ট নিবেন দক্ষ সাবজেক্ট ম্যাটার এক্সপার্টদের থেকে।',
+    isOpen: false
+  }
+]);
+
+const toggleAccordion = (index) => {
+  faqs.value[index].isOpen = !faqs.value[index].isOpen;
+};
+
+
 </script>
 <template>
      <Head title="Course" />
@@ -109,46 +153,187 @@ const daysRemaining = computed(() => {
     </el-collapse>
   </div>
 
-    <section style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto rounded-lg p-6 mt-6">
+  <div class="max-w-6xl mx-auto rounded-lg p-6 mt-6 flex justify-center">
+    <Link :href="route('checkout', courses.slug)" class="bg-yellow-400 px-5 py-3 rounded font-semibold text-black flex">
+        কোর্সে এনরোল করুন →
+    </Link>
+</div>
+
+    <section v-if="courses.gets && courses.gets.length > 0" style="font-family: 'Hind Siliguri'" class="max-w-6xl mx-auto rounded-lg p-6 mt-6">
             <h2 class="text-2xl font-bold text-center">কোর্সে আপনি পাচ্ছেন</h2>
             <div class="flex justify-center">
                 <img src="https://cdn.ostad.app/public/upload/2023-11-05T09-20-16.532Z-learn_topic.svg" alt="">
 
             </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 p-6">
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">📚</span>
-                <h3 class="font-semibold mt-2">৬ মাসের কারিকুলাম</h3>
-                <p class="text-gray-600 text-sm">বেসিক থেকে এডভান্সড পর্যন্ত স্ট্রাকচার্ড লার্নিং</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">🎥</span>
-                <h3 class="font-semibold mt-2">১০০+ ভিডিও লেকচার</h3>
-                <p class="text-gray-600 text-sm">প্রতিটি টপিকের জন্য রেকর্ডেড ভিডিও</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">💻</span>
-                <h3 class="font-semibold mt-2">লাইভ ক্লাস</h3>
-                <p class="text-gray-600 text-sm">১০+ লাইভ ক্লাস অভিজ্ঞ ইন্সট্রাক্টরের সাথে</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">📊</span>
-                <h3 class="font-semibold mt-2">প্র্যাকটিকাল প্রজেক্ট</h3>
-                <p class="text-gray-600 text-sm">রিয়েল ওয়ার্ল্ড স্কিল ডেভেলপমেন্ট</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">🏆</span>
-                <h3 class="font-semibold mt-2">সার্টিফিকেট</h3>
-                <p class="text-gray-600 text-sm">কোর্স শেষে ইন্ডাস্ট্রি-রেডি সার্টিফিকেট</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded text-center">
-                <span class="text-2xl">🚀</span>
-                <h3 class="font-semibold mt-2">ক্যারিয়ার সাপোর্ট</h3>
-                <p class="text-gray-600 text-sm">জব প্লেসমেন্ট সহায়তা</p>
+            <div class="flex py-6 px-2 flex-col justify-center items-center rounded bg-gray-50 shadow-sm" v-for="(get, index) in courses.gets" :key="index">
+                <span class="text-2xl"><img :src="get.icon ? `/storage/${get.icon}` : ''" alt="" class="w-10 h-10 object-cover"></span>
+                <h3 class="font-semibold mt-2">{{ get.title }}</h3>
+                <p class="text-gray-600 text-sm">{{ get.description }}</p>
             </div>
         </div>
-    </section>    
+    </section> 
+
+
+    <section class="py-10 md:pt-16 md:pb-[92px] bg-white" >
+  <div class="w-full px-4 mx-auto max-w-screen-sm md:max-w-screen-md lg:max-w-[1150px] xl:max-w-[1150px]" v-if="courses.tools && courses.tools.length > 0">
+    <div class="flex flex-col items-center justify-center gap-3 md:gap-6">
+      <h2 class="text-2xl md:text-4xl font-bold text-gray-900 text-center">
+        যেসব ট্যুলস ও টেকনোলোজি শিখবেন
+      </h2>
+      
+      <div class="w-full md:w-[54%] grid grid-cols-3 md:grid-cols-4 gap-4">
+        <!-- VS Code -->
+        <div class="opacity-100 translate-y-[-6px]" v-for="(tool, index) in courses.tools" :key="index">
+          <div class="flex py-6 px-2 flex-col justify-center items-center gap-3 rounded bg-gray-50 shadow-sm">
+            <img class="w-8" :src="tool.icon ? `/storage/${tool.icon}` : ''"  alt="VS Code">
+            <p class="text-sm text-center text-gray-700">{{ tool.title }}</p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="py-8 md:py-14 px-4 flex flex-col gap-5 bg-white">
+  <div class="w-full mx-auto max-w-screen-sm md:max-w-screen-md lg:max-w-[1150px] xl:max-w-[1150px]">
+    <div class="flex flex-col gap-5 text-center">
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 relative pb-4 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-16 before:h-1 before:bg-y-400">
+        কী কী <span class="text-yellow-500">থাকতে</span> হবে
+      </h1>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 h-auto">
+        <!-- Laptop/Desktop -->
+        <div class="flex p-2 md:p-6 flex-col items-center md:items-start gap-4 flex-1 rounded-xl bg-gray-50">
+          <div class="flex p-3 justify-center items-center gap-2 rounded bg-gray-100">
+            <img class="w-10" src="https://cdn.ostad.app/public/upload/2023-11-04T08-40-03.645Z-laptop.png" alt="Laptop">
+          </div>
+          <p class="text-base font-medium text-gray-700">ল্যাপটপ/ডেস্কটপ (৪ জিবি র‌্যাম)</p>
+        </div>
+        
+        <!-- Internet Connection -->
+        <div class="flex p-2 md:p-6 flex-col items-center md:items-start gap-4 flex-1 rounded-xl bg-gray-50">
+          <div class="flex p-3 justify-center items-center gap-2 rounded bg-gray-100">
+            <img class="w-10" src="https://cdn.ostad.app/public/upload/2023-11-04T08-40-54.789Z-freelance.png" alt="Internet">
+          </div>
+          <p class="text-base font-medium text-gray-700">ভালো ইন্টারনেট কানেকশন</p>
+        </div>
+        
+        <!-- Perseverance -->
+        <div class="flex p-2 md:p-6 flex-col items-center md:items-start gap-4 flex-1 rounded-xl bg-gray-50">
+          <div class="flex p-3 justify-center items-center gap-2 rounded bg-gray-100">
+            <img class="w-10" src="https://cdn.ostad.app/public/upload/2023-11-04T08-41-05.911Z-perseverance.png" alt="Perseverance">
+          </div>
+          <p class="text-base font-medium text-gray-700">লেগে থাকার মানসিকতা</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="py-6 md:pb-12 bg-white">
+    <div class="relative">
+      <h1 class="text-xl md:text-4xl text-gray-800 text-center relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-yellow-500">
+        প্রায়ই জিজ্ঞেস করা <span class="text-yellow-500">প্রশ্ন</span>
+      </h1>
+    </div>
+
+    <div class="w-full px-4 mx-auto max-w-screen-sm md:max-w-screen-md lg:max-w-[1150px] xl:max-w-[1150px]">
+      <div class="mx-auto mt-8 md:mt-12 w-full md:w-2/3">
+        <div class="flex flex-col justify-center items-center">
+          <ul class="w-full bg-transparent space-y-2">
+            <li 
+              v-for="(faq, index) in faqs" 
+              :key="faq.id"
+              class="w-full flex-1 cursor-pointer list-none overflow-hidden bg-white border border-transparent rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.05)] p-4 mb-2"
+              @click="toggleAccordion(index)"
+            >
+              <div class="flex flex-row justify-between items-center bg-transparent text-gray-900 p-0">
+                <p class="font-semibold text-base leading-[27px]">{{ faq.question }}</p>
+                <span>
+                  <img 
+                    src="https://cdn.ostad.app/public/upload/2023-11-15T06-41-25.085Z-arrow-down-s-line.svg" 
+                    :class="['transform transition-transform duration-200', {'rotate-180': faq.isOpen}]"
+                  >
+                </span>
+              </div>
+              <div 
+                class="overflow-hidden transition-all ease-in-out duration-200 bg-transparent text-gray-900"
+                :class="{'h-auto': faq.isOpen, 'h-0': !faq.isOpen}"
+              >
+                <div class="font-normal text-base leading-6 whitespace-pre-wrap p-0 pt-2">
+                  {{ faq.answer }}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="max-w-6xl mx-auto rounded-lg p-6 mt-6 flex justify-center">
+    <Link :href="route('checkout', courses.slug)" class="bg-yellow-400 px-5 py-3 rounded font-semibold text-black flex">
+        কোর্সে এনরোল করুন →
+    </Link>
+</div>
+
+</section>
+<div class="w-full px-4 mx-auto max-w-screen-sm md:max-w-screen-md lg:max-w-[1150px] xl:max-w-[1150px]">
+  <div class="  md:pb-[110px] flex flex-col md:flex-row gap-2 md:gap-6 items-center justify-center">
+    <!-- Heading -->
+    <p class="w-full md:w-[310px] text-xl md:text-4xl text-center md:text-end text-gray-800">
+      জয়েন করুন আমাদের ফেসবুক গ্রুপে
+    </p>
+    
+    <!-- Group Card -->
+    <div class="w-full md:w-[554px]">
+      <div class="flex flex-col justify-between items-start p-3 gap-4 w-full bg-white border border-gray-200 rounded-lg lg:flex-row lg:py-3 lg:px-4">
+        <!-- Group Cover Image -->
+        <img 
+          class="w-full lg:min-w-[240px] lg:max-w-[240px] aspect-video object-cover rounded overflow-hidden" 
+          alt="Facebook Group Cover" 
+          :src="courses.thumbnail"
+        >
+        
+        <!-- Group Info -->
+        <div class="flex flex-col items-start p-0 gap-2 w-full">
+          <!-- Member Count Badge -->
+          <div class="flex flex-col gap-1 flex-wrap">
+            <div class="flex flex-wrap justify-center items-center bg-blue-50 rounded px-1.5 py-0.5 w-fit gap-2 text-center">
+              <img width="16" height="16" src="https://cdn.ostad.app/public/icons/team-line.svg" alt="Members">
+              <p class="font-medium text-xs leading-[19px] tracking-wide whitespace-nowrap">
+                ২০০০ জন মেম্বার
+              </p>
+            </div>
+            
+            <!-- Group Name -->
+            <p class="text-base font-medium text-gray-900">
+              {{courses.title}} Community @Bangladesh
+            </p>
+          </div>
+          
+          <!-- Join Button -->
+           <a :href="courses.group" target="_blank" rel="noopener noreferrer">
+          <button 
+            type="button" 
+            class="w-full md:w-auto text-gray-900 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-md h-10 px-6 py-2 transition-colors duration-200"
+          >
+            <div class="flex justify-center items-center gap-2">
+              <p class="whitespace-nowrap">জয়েন করুন</p>
+              <div class="flex justify-center items-center">
+                <img 
+                  src="https://cdn.ostad.app/public/icons/facebook-circle-line.svg" 
+                  class="w-[19px] min-w-[19px] h-[19px] min-h-[19px]" 
+                  alt="Facebook"
+                >
+              </div>
+            </div>
+          </button>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     </FrontendLayout>
 </template>
 <style scoped>

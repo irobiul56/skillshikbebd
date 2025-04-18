@@ -18,7 +18,7 @@ class FrontEndController extends Controller
     }
    public function course($slug)
    {
-       $courses = Course::with('curriculums')->where('slug', $slug)->firstOrFail();
+       $courses = Course::with(['curriculums','gets','tools'])->where('slug', $slug)->firstOrFail();
    
        // Ensure the thumbnail contains the full image URL
        if ($courses->thumbnail) {
@@ -72,6 +72,7 @@ class FrontEndController extends Controller
    
 public function ebookcheckout($slug)
 {
+    
     $ebook = Book::where('slug', $slug)->firstOrFail();
 
     // Ensure the thumbnail contains the full image URL
@@ -82,6 +83,35 @@ public function ebookcheckout($slug)
     return Inertia::render('Book/EbookCheckout', [
         'ebook' => $ebook // Use singular 'course' instead of 'courses'
     ]);
+}
+
+public function checkoutebook(Request $request)
+{
+
+    // dd($request ->all());
+
+    $validatedData = $request->validate([
+        'ebook_id' => 'required',
+        'payment_method' => 'required|string',
+        'transaction_id' => 'required|string',
+        'name' => 'required|string',
+        'email' => 'required|email',
+        'phone' => 'required|string',
+    ]);
+
+
+    $order = EbookCheckout::create([
+        'ebook_id' => $request-> ebook_id,
+        'payment_method' => $request-> payment_method,
+        'transaction_id' => $request-> transaction_id,
+        'name' => $request-> name,
+        'email' => $request-> email,
+        'phone' => $request-> phone,
+        'amount' => $request-> amount,
+        
+    ]);
+
+    return redirect()->route('thank-you')->with('success', $order);
 }
 
 

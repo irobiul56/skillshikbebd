@@ -30,5 +30,15 @@ class Course extends Model
     {
         return $this->belongsTo(ProductCategoryModel::class, 'category_id', 'id');
     }
+
+    public function gets()
+    {
+        return $this->belongsToMany(Get::class, 'course_get');
+    }
+
+    public function tools()
+    {
+        return $this->belongsToMany(Tool::class, 'course_tool');
+    }
     
 }
